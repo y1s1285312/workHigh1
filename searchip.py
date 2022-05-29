@@ -20,7 +20,9 @@ iplists = data.split('\r\n')
 findlist=''
 totalcount = 0
 for ip in iplists:
-    if totalcount >15:
+    if '.' not in ip:
+        continue
+    if totalcount >15 :
         break
     try:
         result = vt_api_ip_addresses.get_report(ip)

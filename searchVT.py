@@ -20,7 +20,7 @@ print(iplists)
 findlist=''
 
 for ip in iplists:
-    if ip == '':
+    if '.' not in ip:
         continue
     try:
         result = vt_api_ip_addresses.get_report(ip)
