@@ -2,4 +2,4 @@ Flask==2.1.2
 pandas
 requests
 vtapi3
-gunicorn
+gunicorn==20.0.4
