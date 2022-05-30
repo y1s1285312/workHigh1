@@ -1,5 +1,5 @@
 Flask==2.1.2
-pandas==1.4.2
-request
+pandas
+requests
 vtapi3
 gunicorn
