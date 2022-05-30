@@ -1,0 +1,9 @@
+libsm6
+libxrender1
+libfontconfig1
+libice6
+
+tesseract-ocr
+tesseract-ocr-kor
+libarchive13
+libarchive-dev
