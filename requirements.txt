@@ -1,3 +1,4 @@
-urllib
-BeautifulSoup
-twilio
+vtapi3==1.26.9
+beautifulsoup4==4.11.1
+twilio==7.10.0
+requests==2.27.1
