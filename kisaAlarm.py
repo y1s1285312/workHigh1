@@ -56,8 +56,9 @@ def startAlarm():
         title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
         d2 = time.split('.')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
-        if data.find('img') != None and len(list(filter(lambda x : title in x,finded)))==0\
-                and (d1-d2).days<1:
+        chk = len(list(filter(lambda x : title in x,finded)))
+        
+        if (d1-d2).days < 1 and chk==0:
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
