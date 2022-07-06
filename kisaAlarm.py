@@ -2,16 +2,15 @@ import urllib.request
 from bs4 import BeautifulSoup
 import datetime
 import threading
-import os
 from twilio.rest import Client
 
 account_sid = 'ACc1ed9fe9d6dd810e1ea76a63c8575b46'
-auth_token = '4449045cc63b32f6507f0644ed4ef735'
+auth_token = '505450498c835234ed599bb11e269c56'
 client = Client(account_sid, auth_token)
 
 
 
-period = 30
+period = 600
 removeFindedPeriod=6
 
 finded = []
@@ -56,7 +55,7 @@ def startAlarm():
         d2 = time.split('.')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         if data.find('img') != None and len(list(filter(lambda x : title in x,finded)))==0\
-                and (d1-d2).days<2:
+                and (d1-d2).days<1:
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
