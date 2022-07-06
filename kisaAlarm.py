@@ -37,6 +37,7 @@ def removeFindedData():
 
 
 def startAlarm():
+    print('startAlarm')
     global finded
     today = datetime.datetime.now().strftime('%Y.%m.%d')
     d1 = today.split('.')
@@ -49,7 +50,7 @@ def startAlarm():
     res = BeautifulSoup(html, 'html.parser')
     datas = res.select('#contentDiv > table > tbody > tr')
     res = []
-    print(datas)
+    print('data:',datas)
     for data in datas:
         time = data.find_all('td', attrs={'class': 'gray'})[2].text
         title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
