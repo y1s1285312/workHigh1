@@ -11,7 +11,7 @@ client = Client(account_sid, auth_token)
 
 
 
-period = 10
+period = 30
 removeFindedPeriod=6
 
 finded = []
