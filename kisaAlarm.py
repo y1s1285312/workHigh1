@@ -7,7 +7,7 @@ import os
 
 account_sid = os.environ.get('ackey')
 auth_token = os.environ.get('authkey')
-client = Client(account_sid, auth_token)
+#client = Client(account_sid, auth_token)
 
 
 
@@ -49,7 +49,7 @@ def startAlarm():
     res = BeautifulSoup(html, 'html.parser')
     datas = res.select('#contentDiv > table > tbody > tr')
     res = []
-
+    print(datas)
     for data in datas:
         time = data.find_all('td', attrs={'class': 'gray'})[2].text
         title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
@@ -60,7 +60,7 @@ def startAlarm():
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
-
+    '''
     if len(res)>0:
         client.messages \
             .create(
@@ -68,6 +68,7 @@ def startAlarm():
             from_='+19107086825',
             to='+821053429022'
         )
+    '''
 
 
 
