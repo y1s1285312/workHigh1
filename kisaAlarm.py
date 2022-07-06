@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 import datetime
 import threading
 from twilio.rest import Client
+import os
 
-account_sid = 'ACc1ed9fe9d6dd810e1ea76a63c8575b46'
-auth_token = '505450498c835234ed599bb11e269c56'
+account_sid = os.environ.get('ackey')
+auth_token = os.environ.get('authkey')
 client = Client(account_sid, auth_token)
 
 
@@ -36,6 +37,7 @@ def removeFindedData():
 
 
 def startAlarm():
+    print('startAlarm')
     global finded
     today = datetime.datetime.now().strftime('%Y.%m.%d')
     d1 = today.split('.')
@@ -48,18 +50,18 @@ def startAlarm():
     res = BeautifulSoup(html, 'html.parser')
     datas = res.select('#contentDiv > table > tbody > tr')
     res = []
-
+    print('data:',datas)
     for data in datas:
         time = data.find_all('td', attrs={'class': 'gray'})[2].text
         title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
         d2 = time.split('.')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         if data.find('img') != None and len(list(filter(lambda x : title in x,finded)))==0\
-                and (d1-d2).days<1:
+                and (d1-d2).days<2:
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
-
+    
     if len(res)>0:
         client.messages \
             .create(
@@ -67,6 +69,7 @@ def startAlarm():
             from_='+19107086825',
             to='+821053429022'
         )
+    
 
 
 
