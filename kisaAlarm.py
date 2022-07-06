@@ -50,18 +50,18 @@ def startAlarm():
     res = BeautifulSoup(html, 'html.parser')
     datas = res.select('#contentDiv > table > tbody > tr')
     res = []
-    print('data:',datas)
+
     for data in datas:
         time = data.find_all('td', attrs={'class': 'gray'})[2].text
         title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
         d2 = time.split('.')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         if data.find('img') != None and len(list(filter(lambda x : title in x,finded)))==0\
-                and (d1-d2).days<2:
+                and (d1-d2).days<1:
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
-    
+
     if len(res)>0:
         client.messages \
             .create(
@@ -69,7 +69,7 @@ def startAlarm():
             from_='+19107086825',
             to='+821053429022'
         )
-    
+
 
 
 
