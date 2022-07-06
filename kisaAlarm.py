@@ -2,16 +2,16 @@ import urllib.request
 from bs4 import BeautifulSoup
 import datetime
 import threading
-import os
 from twilio.rest import Client
+import os
 
-account_sid = 'ACc1ed9fe9d6dd810e1ea76a63c8575b46'
-auth_token = '4449045cc63b32f6507f0644ed4ef735'
+account_sid = os.environ.get('ackey')
+auth_token = os.environ.get('authkey')
 client = Client(account_sid, auth_token)
 
 
 
-period = 10
+period = 600
 removeFindedPeriod=6
 
 finded = []
