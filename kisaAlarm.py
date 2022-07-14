@@ -64,6 +64,7 @@ def startAlarm():
             finded.append(str)
 
     if len(res)>0:
+        print('send msg')
         client.messages \
             .create(
             body="새 보안권고문",
