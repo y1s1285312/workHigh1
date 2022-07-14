@@ -11,7 +11,7 @@ client = Client(account_sid, auth_token)
 
 
 
-period = 600
+period = 900
 removeFindedPeriod=6
 
 finded = []
@@ -58,7 +58,7 @@ def startAlarm():
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         chk = len(list(filter(lambda x : title in x,finded)))
         
-        if (d1-d2).days < 1 and chk==0:
+        if (d1-d2).days ==0 and chk==0:
             str = '{}/{}'.format(time,title)
             res.append(str)
             finded.append(str)
