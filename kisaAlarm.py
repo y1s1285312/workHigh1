@@ -5,9 +5,9 @@ import threading
 from twilio.rest import Client
 import os
 
-account_sid = os.environ.get('ackey')
-auth_token = os.environ.get('authkey')
-client = Client(account_sid, auth_token)
+#account_sid = os.environ.get('ackey')
+#auth_token = os.environ.get('authkey')
+#client = Client(account_sid, auth_token)
 
 
 
@@ -65,13 +65,17 @@ def startAlarm():
 
     if len(res)>0:
         print('send msg')
+        
+        response = requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text=test1234")
+        
+        '''
         client.messages \
             .create(
             body="새 보안권고문",
             from_='+19107086825',
             to='+821053429022'
         )
-
+        '''
 
 
 
