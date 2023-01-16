@@ -12,7 +12,7 @@ import os
 
 
 
-period = 900
+period = 300
 removeFindedPeriod=6
 
 finded = []
