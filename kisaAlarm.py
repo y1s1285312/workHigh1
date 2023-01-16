@@ -67,7 +67,7 @@ def startAlarm():
     if len(res)>0:
         print('send msg')
         
-        response = requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text=test1234")
+        response = requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text=새 보안권고문")
         
         '''
         client.messages \
