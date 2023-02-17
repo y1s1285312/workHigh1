@@ -1,0 +1,15 @@
+klsaberi.high1.com/klsaberi/index.do
+klacc.high1.com/klsaberi/index.do
+klsaberi.high1.com/
+slm.high1.com/
+hn.high1.com/
+hn.high1.com/client/SmsSend.jsp
+mail.high1.com/login
+www.high1.com/www/index.do
+www.kangwonland.com/kangwonland/index.do
+emp.high1.com/
+www.high1.com/www/index.do
+recruit.high1.co.kr/hcm_rec/index.jsp
+reserve.high1.com/res/co/EmpLogin.do
+ebd.high1.co.kr:444/index.jsp
+efbd.high1.co.kr/index.jsp

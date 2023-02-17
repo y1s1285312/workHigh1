@@ -1,0 +1,24 @@
+site:[URL] include oci8.inc
+site:[URL] intext:"using password"
+site:[URL] intext:"select"
+site:[URL] intext:sqlsyntax
+site:[URL] MySQLresultresource
+site:[URL] getimagesize
+site:[URL] intext:Syntax error
+site:[URL] intext:select count(*) from
+site:[URL] intext:이력서
+site:[URL] intext:주민번호
+site:[URL] intext:핸드폰
+site:[URL] intitle:이력서
+site:[URL] "이력서"
+site:[URL] "주민번호"
+site:[URL] inurl:"hwp"
+site:[URL] intext:관리자 로그인
+site:[URL] "m=admin"
+site:[URL] inurl:admin
+site:[URL] intitle:admin
+intitle:index.of/home inurl:[URL]
+site:[URL] "Parent Directory"
+site:[URL] intext:SQL Exception
+site:[URL] intitle:"아파치 설치를 위한 테스트페이지"
+site:[URL] intitle:"test.page "Hey, it worked !"SSL/TLS-aware"
