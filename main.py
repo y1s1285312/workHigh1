@@ -5,35 +5,59 @@ search_url_prefix = "https://www.google.com/search?q="
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import chromedriver_autoinstaller
 import subprocess
+from time import sleep
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 
-subprocess.Popen(r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"') # 디버거 크롬 구동
 
-
-option = Options()
-option.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-
-chrome_ver = chromedriver_autoinstaller.get_chrome_version().split('.')[0]
-try:
-    driver = webdriver.Chrome(f'./chromedriver.exe', options=option)
-except:
-    chromedriver_autoinstaller.install(True)
-    driver = webdriver.Chrome(f'./chromedriver.exe', options=option)
-driver.implicitly_wait(10)
 
 
 def get_first_result(search_str):
     search_url = search_url_prefix + search_str
-    # print(search_url)
 
-    #driver = webdriver.Chrome(options=option)
-    driver.implicitly_wait(10)
 
-    driver.get(search_url)
+
+    sleep(1)
+    try:
+        driver.get(search_url)
+
+        f1 = driver.find_elements(By.TAG_NAME, "iframe")[0]
+        driver.switch_to.frame(f1)
+
+        sleep(2)
+
+        driver.find_element(By.XPATH, "//span[@id='recaptcha-anchor']").click()
+        driver.switch_to.default_content()
+
+        sleep(2)
+
+        f2 = driver.find_elements(By.TAG_NAME, "iframe")[2]
+
+        driver.switch_to.frame(f2)
+        print('move frame')
+
+        driver.find_element(By.XPATH, '//*[@id="rc-imageselect"]/div[3]/div[2]/div[1]/div[1]/div[4]').click()
+
+
+        sleep(5)
+
+        driver.find_element(By.XPATH, '//*[@id="rc-audio"]/div[8]/div[2]/div[1]/div[1]/div[4]').click()
+
+        sleep(3)
+
+
+
+
+    except Exception as e :
+        print(e)
+
+    #sleep(5)
 
     html = driver.page_source
     soup = BeautifulSoup(html, features="html.parser")
+
     r = str(soup.select('#result-stats'))
     res = r[r.find('약') + 1:r.find('개')]
     print(res)
@@ -41,7 +65,7 @@ def get_first_result(search_str):
 
 
 
-
+'''
 def makeQry():
     f = open("urls.txt", 'r')
     lines = f.readlines()
@@ -75,21 +99,68 @@ def makeQry():
 
     #print(qrys)
     return qrys
+    
+'''
+
+
+sp = subprocess.Popen(
+            r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"')  
+
+option = Options()
+option.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=option)
+
+
 if __name__ == '__main__':
-    qrys=makeQry()
-    print(qrys)
+    #qrys=makeQry()
+    #print(qrys)
+
+    f = open("urls.txt", 'r')
+    lines = f.readlines()
+    urls = []
+
+    for line in lines:
+        line = line.strip()  
+        urls.append(line)
+
+    # print(urls)
+
+    f.close()
+
+    f = open("searchs.txt", 'r', encoding='UTF-8')
+    lines = f.readlines()
+    searchs = []
+
+    for line in lines:
+        line = line.strip()  
+        searchs.append(line)
+
+    # print(searchs)
+
+    f.close()
+
+
     finds=[]
 
-    for qry in qrys :
 
-        result = int(get_first_result(qry))
 
-        print(qry,result)
+    for url in urls :
 
-        if result > 0 :
-            finds.append(qry)
 
-    print(qry)
+        for search in searchs:
+            qry=search.replace('[URL]',url)
+            result = int(get_first_result(qry))
+
+            print(qry,result)
+
+            if result > 0 :
+                finds.append(qry)
+
+    print('result\n')
+    if len(finds)>0:
+        print('\n'.join(finds))
+    driver.close()
+    sp.terminate()
 
 
 
