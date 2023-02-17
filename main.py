@@ -18,11 +18,9 @@ def get_first_result(search_str):
     search_url = search_url_prefix + search_str
 
 
-
-    sleep(1)
     try:
         driver.get(search_url)
-
+        sleep(1)
         f1 = driver.find_elements(By.TAG_NAME, "iframe")[0]
         driver.switch_to.frame(f1)
 
@@ -31,7 +29,7 @@ def get_first_result(search_str):
         driver.find_element(By.XPATH, "//span[@id='recaptcha-anchor']").click()
         driver.switch_to.default_content()
 
-        sleep(2)
+        sleep(5)
 
         f2 = driver.find_elements(By.TAG_NAME, "iframe")[2]
 
@@ -51,7 +49,8 @@ def get_first_result(search_str):
 
 
     except Exception as e :
-        print(e)
+        pass
+        #print(e)
 
     #sleep(5)
 
@@ -60,7 +59,7 @@ def get_first_result(search_str):
 
     r = str(soup.select('#result-stats'))
     res = r[r.find('약') + 1:r.find('개')]
-    print(res)
+    #print(res)
     return res
 
 
@@ -104,7 +103,7 @@ def makeQry():
 
 
 sp = subprocess.Popen(
-            r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"')  
+            r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"')  # 디버거 크롬 구동
 
 option = Options()
 option.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
@@ -120,7 +119,7 @@ if __name__ == '__main__':
     urls = []
 
     for line in lines:
-        line = line.strip()  
+        line = line.strip()  # 줄 끝의 줄 바꿈 문자를 제거한다.
         urls.append(line)
 
     # print(urls)
@@ -132,7 +131,7 @@ if __name__ == '__main__':
     searchs = []
 
     for line in lines:
-        line = line.strip()  
+        line = line.strip()  # 줄 끝의 줄 바꿈 문자를 제거한다.
         searchs.append(line)
 
     # print(searchs)
@@ -149,9 +148,21 @@ if __name__ == '__main__':
 
         for search in searchs:
             qry=search.replace('[URL]',url)
-            result = int(get_first_result(qry))
+            result = True
 
-            print(qry,result)
+            while result == True:
+                try:
+                    result = get_first_result(qry)
+                    result=int(result)
+                    print(qry, result)
+                except:
+                    result = True
+
+
+
+
+
+
 
             if result > 0 :
                 finds.append(qry)
