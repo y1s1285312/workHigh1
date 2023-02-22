@@ -63,7 +63,7 @@ def startAlarm():
         print('send msg')
         print(res)
         print(finded)
-        requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text={}".format(msg))
+        requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=-1001258042021&text={}".format(msg))
 
     
     removeFindedData()
