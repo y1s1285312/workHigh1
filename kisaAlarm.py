@@ -20,7 +20,7 @@ def removeFindedData():
     dellist = []
 
     for i, x in enumerate(finded):
-        d2 = x.split('/')[0].split('.')
+        d2 = x.split('/')[0].split('-')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         if (d1 - d2).days > removeFindedPeriod:
             dellist.append(x)
@@ -32,7 +32,7 @@ def removeFindedData():
 
 def startAlarm():
     print('startAlarm')
-    msg = '새 보안권고문\n'
+    msg = ''
     global finded
     today = datetime.datetime.now().strftime('%Y.%m.%d')
     d1 = today.split('.')
@@ -61,17 +61,17 @@ def startAlarm():
             msg += title + '\n'
             finded.append(str)
 
-    #print(res)
+    #print('res',res)
 
 
     if len(res) > 0:
         print('send msg')
-        print(res)
-        print(finded)
+        print('res',res)
+        print('finded',finded)
         requests.get(
             "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=-1001258042021&text={}".format(
                 msg))
-    
+
     removeFindedData()
     timer.start()
 
