@@ -26,13 +26,13 @@ def removeFindedData():
             dellist.append(x)
 
     for x in dellist:
-        print('delData',x)
+        print('delData', x)
         finded.remove(x)
 
 
 def startAlarm():
     print('startAlarm')
-    msg='새 보안권고문\n'
+    msg = '새 보안권고문\n'
     global finded
     today = datetime.datetime.now().strftime('%Y.%m.%d')
     d1 = today.split('.')
@@ -40,37 +40,45 @@ def startAlarm():
 
     timer = threading.Timer(period, startAlarm)
 
-    url = 'https://krcert.or.kr/data/secNoticeList.do'
+    url = 'https://www.krcert.or.kr/kr/bbs/list.do?menuNo=205020&bbsId=B0000133'
     html = urllib.request.urlopen(url).read()
     res = BeautifulSoup(html, 'html.parser')
-    datas = res.select('#contentDiv > table > tbody > tr')
+    datas = res.select('#List > div.board > div > table > tbody > tr')
     res = []
-
+    #print(datas)
     for data in datas:
-        time = data.find_all('td', attrs={'class': 'gray'})[2].text
-        title = data.find('td', attrs={'class': 'colTit'}).text.strip('\n')
-        d2 = time.split('.')
+        time = data.find('td', attrs={'class': 'date'}).text
+        #print(time)
+        title = data.find('td', attrs={'class': 'sbj tal'}).text.strip('\n').strip()
+        #print(title)
+        d2 = time.split('-')
         d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         chk = len(list(filter(lambda x: title in x, finded)))
 
         if (d1 - d2).days == 0 and chk == 0:
             str = '{}/{}'.format(time, title)
             res.append(str)
-            msg += title+'\n'
+            msg += title + '\n'
             finded.append(str)
+
+    #print(res)
+
 
     if len(res) > 0:
         print('send msg')
         print(res)
         print(finded)
-        requests.get("https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=-1001258042021&text={}".format(msg))
-
+        requests.get(
+            "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=-1001258042021&text={}".format(
+                msg))
     
     removeFindedData()
     timer.start()
 
+
 def handle_exit():
     print('종료')
+
 
 atexit.register(handle_exit)
 startAlarm()
