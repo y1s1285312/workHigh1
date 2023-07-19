@@ -124,10 +124,35 @@ def startAlarm():
     removeFindedData()
     timer.start()
 
+def test():
+    timer = threading.Timer(60, test)
 
+    url = "https://www.high1.com"
+
+    try:
+        response = requests.get(url)
+        print(response.status_code)
+
+        if response.status_code != 200:
+            msg='scode{}'.format(response.status_code)
+            #print('200 x')
+            requests.get(
+            "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text={}".format(
+                msg))
+
+    except requests.exceptions as e:
+        
+        requests.get(
+            "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text={}".format(
+                e))
+
+
+    timer.start()
+    
 def handle_exit():
     print('종료')
 
 
 atexit.register(handle_exit)
 startAlarm()
+test()
