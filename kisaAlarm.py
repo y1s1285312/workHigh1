@@ -125,7 +125,7 @@ def startAlarm():
     timer.start()
 
 def test():
-    timer = threading.Timer(60, test)
+    timer2 = threading.Timer(60, test)
 
     url = "https://www.high1.com"
 
@@ -147,7 +147,7 @@ def test():
                 e))
 
 
-    timer.start()
+    timer2.start()
     
 def handle_exit():
     print('종료')
