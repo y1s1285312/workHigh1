@@ -140,11 +140,11 @@ def test():
             "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text={}".format(
                 msg))
 
-    except requests.exceptions as e:
+    except :
         
         requests.get(
             "https://api.telegram.org/bot5842805214:AAEogW_ZtELsS4zVMvOBfI_jPfvHWIobtNc/sendMessage?chat_id=5894259370&text={}".format(
-                e))
+                'request error'))
 
 
     timer2.start()
