@@ -155,4 +155,4 @@ def handle_exit():
 
 atexit.register(handle_exit)
 startAlarm()
-test()
+#test()
