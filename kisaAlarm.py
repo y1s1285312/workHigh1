@@ -72,7 +72,7 @@ def sendmail(mailmsg):
     smtp.quit()
 
 def startAlarm():
-    print('startAlarm',datetime.now())
+    print('startAlarm',datetime.datetime.now())
     msg = ''
     mailmsg=''
     global finded
