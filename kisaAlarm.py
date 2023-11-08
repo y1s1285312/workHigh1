@@ -6,6 +6,7 @@ import requests
 import atexit
 import smtplib
 from email.mime.text import MIMEText
+from pytz import timezone
 
 period = 300
 removeFindedPeriod = 0
