@@ -15,7 +15,7 @@ finded = []
 
 def removeFindedData():
     global finded
-    today = datetime.datetime.now().strftime('%Y.%m.%d')
+    today = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
 
     d1 = today.split('.')
     d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]))
@@ -72,11 +72,11 @@ def sendmail(mailmsg):
     smtp.quit()
 
 def startAlarm():
-    print('startAlarm',datetime.datetime.now())
+    print('startAlarm',datetime.datetime.now(timezone('Asia/Seoul')))
     msg = ''
     mailmsg=''
     global finded
-    today = datetime.datetime.now().strftime('%Y.%m.%d')
+    today = datetime.datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
     d1 = today.split('.')
     d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]))
 
