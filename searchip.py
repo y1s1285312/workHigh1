@@ -4,7 +4,7 @@ import json
 import clipboard
 import os
 from vtapi3 import VirusTotalAPIIPAddresses, VirusTotalAPIError
-from pynput import keyboard
+
 
 dat = '''
 GH 가나 GHANA
@@ -261,49 +261,45 @@ findlist=[]
 totalcount = 0
 con = True
 print('count : ',len(iplists))
-listener = keyboard.Listener(on_press=on_press)
-listener.start()
+
 for ip in iplists:
     if '.' not in ip:
         continue
     if totalcount >= inData or not con:
         break
-    headers = {
-        'accept': 'application/json',
-        'Authorization': 'Basic NmRkOWY0NTMtYmQ2ZS00ZmI1LTlhZjItYWVhN2ExMjg1MmRlOjk2ZWI2M2RhLTQzMWUtNGQ4Yi05OTkxLTBmODFhNGIxNTcxZg==',
-    }
 
     try:
-        response = requests.get('https://api.xforce.ibmcloud.com/api/ipr/{}'.format(ip), headers=headers,timeout=(3,3))
-    except:
-        print('request error')
+        headers = {
+            'accept': 'application/json',
+            'Authorization': 'Basic NmRkOWY0NTMtYmQ2ZS00ZmI1LTlhZjItYWVhN2ExMjg1MmRlOjk2ZWI2M2RhLTQzMWUtNGQ4Yi05OTkxLTBmODFhNGIxNTcxZg==',
+        }
 
-    ret = response.content.decode()
-    datas = json.loads(ret)
+        url = "https://api.criminalip.io/v1/asset/ip/summary?ip={}".format(ip)
+
+        payload = {}
+        headers = {
+            "x-api-key": "pe8l3unFtIApkbxmywRPxteFCMZXJDs5eVU1EeqC4Xwg0zBun9X5hdgHtqFf"
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+
+        res = json.loads(response.text)
+        country=countrylists[res["country_code"].upper()]
+        #print(country)
+
+    except:
+        print('criminal error')
+        continue
+
 
     try:
-        res = datas['history'][-1]
-        score = res['score']
-        countrycode = datas['geo']['countrycode']
-        country = countrylists[countrycode]
-    except:
+        result = vt_api_ip_addresses.get_report(ip)
+        result = json.loads(result)
+        datas = result['data']['attributes']['last_analysis_results']
+    except VirusTotalAPIError as err:
+        print('virustotal error',err, err.err_code)
         continue
-
-    if score >= 5:
-        findlist.append('{}/{}\n'.format(ip,country))
-        totalcount += 1
-        print(ip, score,'\t',totalcount)
-        continue
-
-
-    else:
-        try:
-            result = vt_api_ip_addresses.get_report(ip)
-            result = json.loads(result)
-            datas = result['data']['attributes']['last_analysis_results']
-        except VirusTotalAPIError as err:
-            print('virustotal error',err, err.err_code)
-            continue
 
 
     risk = 0
@@ -317,11 +313,10 @@ for ip in iplists:
     res = '{}/{}'.format(risk, last_analysis_stats)
 
     if risk >= 5:
-        findlist.append('{}/'
-                        '{}\n'.format(ip,country))
+        findlist.append('{}\t{}\n\n'.format(ip,country))
         totalcount += 1
 
-    print(ip, score, res,'\t',totalcount)
+    print(ip, res,'\t',totalcount)
 
 printData()
 
