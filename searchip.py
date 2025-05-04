@@ -230,8 +230,6 @@ def printData():
     finds = ''
     print('####findlist####')
     for i, res in enumerate(findlist):
-        if i == 10:
-            finds += '\n'
         finds += res + '\n'
     print(finds)
     clipboard.copy(finds)
@@ -253,7 +251,7 @@ for x in dat:
     data = x.split()[:2]
     countrylists[data[0]]=data[1]
 
-vt_api_ip_addresses = VirusTotalAPIIPAddresses('0ee2afa4471af7973368d8d056e1dd991f66026eb42fcaf4e41257614785793c')
+vt_api_ip_addresses = VirusTotalAPIIPAddresses('7f9a41decf13b507cffd31c1a6f867793275fb8a2d3e62f92c31c6fefaa79f52')
 
 data = clipboard.paste()
 iplists = data.strip('\r\n').split('\r\n')
@@ -261,44 +259,24 @@ findlist=[]
 totalcount = 0
 con = True
 print('count : ',len(iplists))
-
+print('{:^15} {:^10} {:^10}'.format("ip","score","count"))
 for ip in iplists:
     if '.' not in ip:
         continue
     if totalcount >= inData or not con:
         break
 
-    try:
-        headers = {
-            'accept': 'application/json',
-            'Authorization': 'Basic NmRkOWY0NTMtYmQ2ZS00ZmI1LTlhZjItYWVhN2ExMjg1MmRlOjk2ZWI2M2RhLTQzMWUtNGQ4Yi05OTkxLTBmODFhNGIxNTcxZg==',
-        }
-
-        url = "https://api.criminalip.io/v1/asset/ip/summary?ip={}".format(ip)
-
-        payload = {}
-        headers = {
-            "x-api-key": "pe8l3unFtIApkbxmywRPxteFCMZXJDs5eVU1EeqC4Xwg0zBun9X5hdgHtqFf"
-        }
-
-        response = requests.request("GET", url, headers=headers, data=payload)
-
-
-        res = json.loads(response.text)
-        country=countrylists[res["country_code"].upper()]
-        #print(country)
-
-    except:
-        print('criminal error')
-        continue
-
-
+    #print(ip)
     try:
         result = vt_api_ip_addresses.get_report(ip)
+        #print(result)
         result = json.loads(result)
+        #print(result)
         datas = result['data']['attributes']['last_analysis_results']
     except VirusTotalAPIError as err:
+        printData()
         print('virustotal error',err, err.err_code)
+        os.system('pause')
         continue
 
 
@@ -313,10 +291,29 @@ for ip in iplists:
     res = '{}/{}'.format(risk, last_analysis_stats)
 
     if risk >= 5:
-        findlist.append('{}\t{}\n\n'.format(ip,country))
-        totalcount += 1
+    #if risk == 0:
+        try:
+            url = "https://api.ip2location.io/?key=CC219F45D7D4C1DE780F58E588BAECDA&ip={}".format(ip)
 
-    print(ip, res,'\t',totalcount)
+            response = requests.request("GET", url)
+
+            res2 = json.loads(response.text)
+
+            #print(res)
+            country = countrylists[res2["country_code"].upper()]
+
+            #print(country)
+
+        except:
+            print('ip con error')
+            continue
+
+
+        findlist.append('{}\t{}\n'.format(ip,country))
+        totalcount += 1
+    print('{:^15} {:^10} {:^10}'.format(ip,res,totalcount))
+    #print(ip, res,'\t',totalcount)
+
 
 printData()
 
